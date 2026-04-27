@@ -3,3 +3,4 @@
 /Users/srujants/post-incident-review-system/backend/src/main/java/com/internship/tool/controller/IncidentController.java
 /Users/srujants/post-incident-review-system/backend/src/main/java/com/internship/tool/entity/Incident.java
 /Users/srujants/post-incident-review-system/backend/src/main/java/com/internship/tool/service/IncidentService.java
+/Users/srujants/post-incident-review-system/backend/src/main/java/com/internship/tool/config/SecurityConfig.java

@@ -7,5 +7,11 @@ import java.util.List;
 
 public interface IncidentRepository extends JpaRepository<Incident, Long> {
 
+ // ✅ already used earlier
  List<Incident> findByTitleContainingIgnoreCase(String title);
+
+ // ✅ FIX FOR YOUR ERROR
+ List<Incident> findByIsDeletedFalse();
+
+ List<Incident> findByTitleContainingIgnoreCaseAndIsDeletedFalse(String title);
 }
