@@ -3,35 +3,31 @@ package com.internship.tool.service;
 import com.internship.tool.entity.Incident;
 import com.internship.tool.repository.IncidentRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class IncidentService {
 
- private final IncidentRepository repo;
+    private final IncidentRepository repo;
 
- public IncidentService(IncidentRepository repo){ this.repo = repo; }
+    public IncidentService(IncidentRepository repo) {
+        this.repo = repo;
+    }
 
- public List<Incident> findAll(){
-  return repo.findByIsDeletedFalse();
- }
+    public List<Incident> getAll() {
+        return repo.findAll();
+    }
 
- public Incident update(Long id, Incident body){
-  Incident i = repo.findById(id).orElseThrow();
-  i.setTitle(body.getTitle());
-  i.setDescription(body.getDescription());
-  i.setSeverity(body.getSeverity());
-  i.setStatus(body.getStatus());
-  return repo.save(i);
- }
+    public Incident save(Incident incident) {
+        return repo.save(incident);
+    }
 
- public void softDelete(Long id){
-  Incident i = repo.findById(id).orElseThrow();
-  i.setIsDeleted(true);
-  repo.save(i);
- }
+    public void delete(Long id) {
+        repo.deleteById(id);
+    }
 
- public List<Incident> search(String q){
-  return repo.findByTitleContainingIgnoreCaseAndIsDeletedFalse(q);
- }
+    public List<Incident> search(String keyword) {
+        return repo.findAll(); // simplified
+    }
 }

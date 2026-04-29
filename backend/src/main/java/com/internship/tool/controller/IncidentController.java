@@ -3,11 +3,8 @@ package com.internship.tool.controller;
 import com.internship.tool.entity.Incident;
 import com.internship.tool.repository.IncidentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/incidents")
@@ -15,45 +12,42 @@ import java.util.List;
 public class IncidentController {
 
  @Autowired
- private IncidentRepository repo;
+ private IncidentRepository repository;
 
- // ✅ CREATE
-@PostMapping
-public Incident create(@RequestBody Incident incident) {
- incident.setIncidentDate(java.time.LocalDateTime.now()); // ✅ ADD THIS
- return repo.save(incident);
-}
-
- // ✅ GET ALL WITH PAGINATION (DAY 5 IMPORTANT)
- @GetMapping("/all")
- public Page<Incident> getAll(Pageable pageable) {
-  return repo.findAll(pageable);
+ @PostMapping
+ public Incident create(@RequestBody Incident incident){
+  return repository.save(incident);
  }
 
- // ✅ SEARCH
- @GetMapping("/search")
- public List<Incident> search(@RequestParam String q) {
-  return repo.findByTitleContainingIgnoreCase(q);
+ @GetMapping
+ public Page<Incident> getAll(
+  @RequestParam(defaultValue="0") int page,
+  @RequestParam(defaultValue="5") int size
+ ){
+  return repository.findAll(
+   PageRequest.of(page,size,Sort.by("id").descending())
+  );
  }
 
- // ✅ UPDATE
+ @GetMapping("/{id}")
+ public Incident getOne(@PathVariable Long id){
+  return repository.findById(id).orElseThrow();
+ }
+
  @PutMapping("/{id}")
- public Incident update(@PathVariable Long id, @RequestBody Incident updated) {
-  Incident existing = repo.findById(id).orElseThrow();
+ public Incident update(@PathVariable Long id,@RequestBody Incident data){
+  Incident i = repository.findById(id).orElseThrow();
 
-  existing.setTitle(updated.getTitle());
-  existing.setDescription(updated.getDescription());
-  existing.setSeverity(updated.getSeverity());
-  existing.setStatus(updated.getStatus());
+  i.setTitle(data.getTitle());
+  i.setDescription(data.getDescription());
+  i.setStatus(data.getStatus());
+  i.setSeverity(data.getSeverity());
 
-  return repo.save(existing);
+  return repository.save(i);
  }
 
- // ✅ SOFT DELETE
  @DeleteMapping("/{id}")
- public void delete(@PathVariable Long id) {
-  Incident incident = repo.findById(id).orElseThrow();
-  incident.setIsDeleted(true);
-  repo.save(incident);
+ public void delete(@PathVariable Long id){
+  repository.deleteById(id);
  }
 }

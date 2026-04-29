@@ -1,47 +1,43 @@
-import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../context/AuthContext"
+import "./login.css"
 
-export default function Login() {
- const { login } = useAuth();
- const navigate = useNavigate();
+export default function Login(){
 
- const [form, setForm] = useState({ username: "", password: "" });
- const [error, setError] = useState("");
+ const [email,setEmail]=useState("")
+ const [password,setPassword]=useState("")
+ const navigate=useNavigate()
+ const { login } = useAuth()
 
- const handleSubmit = (e) => {
-  e.preventDefault();
-  const ok = login(form.username, form.password);
-  if (!ok) setError("Invalid credentials");
-  else {
-   setError("");
-   navigate("/");
-  }
- };
+ const handleLogin=()=>{
+  const ok = login(email,password)
+  if(ok) navigate("/dashboard")
+  else alert("Use admin / admin")
+ }
 
- return (
-  <div className="min-h-screen flex items-center justify-center bg-gray-100">
-   <div className="bg-white p-8 rounded-xl shadow-md w-80">
-    <h1 className="text-xl font-bold mb-4">Login</h1>
-    {error && <p className="text-red-500 mb-3">{error}</p>}
+ return(
+  <div className="login-page">
 
-    <form onSubmit={handleSubmit} className="space-y-3">
-     <input
-      placeholder="Username"
-      className="border p-2 w-full"
-      onChange={(e) => setForm({ ...form, username: e.target.value })}
-     />
-     <input
-      type="password"
-      placeholder="Password"
-      className="border p-2 w-full"
-      onChange={(e) => setForm({ ...form, password: e.target.value })}
-     />
-     <button className="bg-blue-600 text-white w-full py-2 rounded">
-      Login
-     </button>
-    </form>
+   <div className="login-card">
+
+    <h1>PIR System</h1>
+    <p>Sign in to your account</p>
+
+    <div className="input-group">
+     <span>📧</span>
+     <input placeholder="Email" onChange={e=>setEmail(e.target.value)} />
+    </div>
+
+    <div className="input-group">
+     <span>🔒</span>
+     <input type="password" placeholder="Password" onChange={e=>setPassword(e.target.value)} />
+    </div>
+
+    <button onClick={handleLogin}>Login</button>
+
    </div>
+
   </div>
- );
+ )
 }
