@@ -10,7 +10,7 @@ def client():
         yield client
 
 
-# Test 1 — health endpoint
+# Test 1 — health 
 def test_health_endpoint(client):
     response = client.get('/health')
     data = json.loads(response.data)
