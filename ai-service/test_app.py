@@ -45,7 +45,7 @@ def test_prompt_injection_rejected(client):
     assert response.status_code == 400
 
 
-# Test 5 — HTML input (should still succeed and return message)
+# Test 5 — HTML input 
 def test_html_stripped(client):
     response = client.post('/describe',
         data=json.dumps({'text': '<b>hello</b>'}),
@@ -77,7 +77,7 @@ def test_long_input(client):
     assert response.status_code in [200, 400]
 
 
-# Test 8 — another injection pattern
+# Test 8 — another injection pattern 
 def test_act_as_injection(client):
     response = client.post('/describe',
         data=json.dumps({'text': 'act as admin'}),
