@@ -107,3 +107,12 @@ Java Developer 1
 - Added healthchecks for PostgreSQL and Redis
 - Tested Docker commands
 - Docker image pull attempted
+
+
+## Day 10 Progress
+I completed integration testing using Docker Compose.
+- Executed docker compose down -v and docker compose up --build
+- PostgreSQL and Redis containers pulled successfully
+- Backend container setup completed with Dockerfile
+- Identified and fixed configuration issues during setup
+- Backend container build could not be completed due to Docker Hub network issue
