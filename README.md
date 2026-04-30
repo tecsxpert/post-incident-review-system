@@ -116,3 +116,12 @@ I completed integration testing using Docker Compose.
 - Backend container setup completed with Dockerfile
 - Identified and fixed configuration issues during setup
 - Backend container build could not be completed due to Docker Hub network issue
+
+
+## Day 11 Progress
+
+- Fixed issues in service and controller classes
+- Created unit tests for IncidentService
+- Configured test folder structure correctly
+- Ran mvn clean test successfully
+- Verified test cases execution
