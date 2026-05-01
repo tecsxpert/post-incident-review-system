@@ -63,6 +63,30 @@
 
 ## Summary:
 - **Average Score:** 8.8/10
-- **All scores above 7/10:** Yes ✅
-- **Prompt rewriting needed:** No ✅
+- **All scores above 7/10:** Yes 
+- **Prompt rewriting needed:** No 
 - **Conclusion:** The /describe endpoint is performing well with consistent and professional AI responses.
+
+## Week 2 AI Quality Review — Day 10
+
+### Endpoint Tested: POST /describe
+### Target Score: 4/5 minimum
+
+| Test | Input | Score |
+|---|---|---|
+| 1 | Network switch failure | 5/5 |
+| 2 | Cloud storage unavailable | 5/5 |
+| 3 | Firewall misconfiguration | 5/5 |
+| 4 | Backup process failed | 5/5 |
+| 5 | Load balancer crash | 5/5 |
+| 6 | Docker container crash | 5/5 |
+| 7 | CI/CD pipeline failed | 5/5 |
+| 8 | Redis cache server down | 5/5 |
+| 9 | API rate limit exceeded | 5/5 |
+| 10 | DNS resolution failure | 5/5 |
+
+### Summary:
+- Average Score: 5/5 
+- Target >= 4/5: Achieved 
+- Prompt rewriting needed: No 
+- Conclusion: AI responses are excellent quality

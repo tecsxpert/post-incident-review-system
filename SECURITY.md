@@ -103,3 +103,31 @@
 
 ### Conclusion:
 No Critical or High findings. All fixable issues have been addressed.
+
+## Day 9 — Week 2 Security Sign-Off
+
+### Rate Limiting Verification:
+- flask-limiter configured at 30 requests/min 
+- Returns 429 Too Many Requests when limit exceeded 
+
+### Injection Protection Verification:
+- Prompt injection test passed — returns 400 
+- HTML stripping test passed — tags removed 
+- Empty input test passed — returns 400 
+
+### JWT Verification:
+- JWT authentication is handled by Java Spring Boot backend 
+- All API endpoints protected by JWT token validation 
+
+### PII Audit:
+- No personal data sent to Groq API 
+- Prompts only contain incident descriptions 
+- No names, emails, passwords or phone numbers in prompts 
+- API key stored securely in .env file 
+
+### Week 2 Security Sign-Off:
+- All security tests passed 
+- No Critical or High vulnerabilities found 
+- Rate limiting active 
+- Injection protection active 
+- PII audit confirmed clean 
