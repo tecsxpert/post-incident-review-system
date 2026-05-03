@@ -1,4 +1,5 @@
 com/internship/tool/entity/Incident.class
+com/internship/tool/config/DataSeeder.class
 com/internship/tool/repository/IncidentRepository.class
 com/internship/tool/aop/AuditAspect.class
 com/internship/tool/controller/IncidentController.class

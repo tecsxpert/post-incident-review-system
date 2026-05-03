@@ -16,14 +16,19 @@ export default function Dashboard(){
 
  const [loading, setLoading] = useState(true)
 
- // 🔥 FETCH FROM BACKEND
+ // ✅ NEW: period state
+ const [period, setPeriod] = useState("ALL")
+
+ // 🔥 FETCH WHEN PERIOD CHANGES
  useEffect(() => {
   fetchStats()
- }, [])
+ }, [period])
 
  const fetchStats = async () => {
   try {
-   const res = await API.get("/incidents/stats")
+   setLoading(true)
+
+   const res = await API.get(`/incidents/stats?period=${period}`)
 
    setStats({
     total: res.data.total,
@@ -34,6 +39,7 @@ export default function Dashboard(){
   } catch (err) {
    console.log("Error fetching stats", err)
   }
+
   setLoading(false)
  }
 
@@ -51,6 +57,27 @@ export default function Dashboard(){
    <div className="header">
     <h1>Incident Dashboard</h1>
     <p>Overview of system incidents</p>
+   </div>
+
+   {/* ✅ NEW: PERIOD FILTER */}
+   <div style={{ marginBottom:"20px" }}>
+    <label style={{ marginRight:"10px", fontWeight:"500" }}>
+     Filter:
+    </label>
+
+    <select
+     value={period}
+     onChange={(e)=>setPeriod(e.target.value)}
+     style={{
+      padding:"6px 10px",
+      borderRadius:"6px",
+      border:"1px solid #ccc"
+     }}
+    >
+     <option value="ALL">All</option>
+     <option value="7">Last 7 Days</option>
+     <option value="30">Last 30 Days</option>
+    </select>
    </div>
 
    <div className="stats">
@@ -81,7 +108,11 @@ export default function Dashboard(){
       <XAxis dataKey="name" stroke={dark ? "#cbd5f5" : "#555"} />
       <YAxis stroke={dark ? "#cbd5f5" : "#555"} />
       <Tooltip />
-      <Bar dataKey="value" fill={dark ? "#818cf8" : "#6366f1"} radius={[8,8,0,0]} />
+      <Bar
+       dataKey="value"
+       fill={dark ? "#818cf8" : "#6366f1"}
+       radius={[8,8,0,0]}
+      />
      </BarChart>
     </ResponsiveContainer>
 

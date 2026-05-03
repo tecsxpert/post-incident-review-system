@@ -2,7 +2,8 @@ package com.internship.tool.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-
+import java.util.Map;
+import java.util.List;
 @Entity
 public class Incident {
 
@@ -33,7 +34,7 @@ public class Incident {
 
  public LocalDateTime getCreatedAt() { return createdAt; }
  public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-
+ 
  @PrePersist
  public void prePersist() {
   this.createdAt = LocalDateTime.now();

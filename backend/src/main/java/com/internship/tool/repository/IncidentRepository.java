@@ -7,24 +7,27 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface IncidentRepository extends JpaRepository<Incident, Long> {
 
-@Query("""
-SELECT i FROM Incident i
-WHERE
+ @Query("""
+ SELECT i FROM Incident i
+ WHERE
  (:q = '' OR LOWER(i.title) LIKE LOWER(CONCAT('%', :q, '%')))
  AND (:status = '' OR i.status = :status)
  AND i.createdAt BETWEEN :start AND :end
-""")
-Page<Incident> search(
- @Param("q") String q,
- @Param("status") String status,
- @Param("start") LocalDateTime start,
- @Param("end") LocalDateTime end,
- Pageable pageable
-);
+ """)
+ Page<Incident> search(
+  @Param("q") String q,
+  @Param("status") String status,
+  @Param("start") LocalDateTime start,
+  @Param("end") LocalDateTime end,
+  Pageable pageable
+ );
+
+ // ✅ ADD THIS (IMPORTANT)
+ List<Incident> findByCreatedAtAfter(LocalDateTime time);
 }

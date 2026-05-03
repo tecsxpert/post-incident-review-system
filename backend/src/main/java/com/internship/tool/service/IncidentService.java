@@ -105,4 +105,29 @@ public Map<String, Long> getStats() {
  public List<Incident> getAllList(){
  return incidentRepository.findAll();
 }
+
+public Map<String, Long> getStats(String period) {
+
+ LocalDateTime now = LocalDateTime.now();
+ LocalDateTime start = null;
+
+ if ("7".equals(period)) start = now.minusDays(7);
+ if ("30".equals(period)) start = now.minusDays(30);
+
+ List<Incident> list = (start == null)
+  ? incidentRepository.findAll()
+  : incidentRepository.findByCreatedAtAfter(start);
+
+ long total = list.size();
+ long open = list.stream().filter(i -> "OPEN".equals(i.getStatus())).count();
+ long closed = list.stream().filter(i -> "CLOSED".equals(i.getStatus())).count();
+
+ return Map.of(
+  "total", total,
+  "open", open,
+  "closed", closed
+ );
+}
+
+
 }

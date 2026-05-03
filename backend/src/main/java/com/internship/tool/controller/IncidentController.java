@@ -43,10 +43,12 @@ public class IncidentController {
  }
 
  // STATS
- @GetMapping("/stats")
- public Map<String, Long> getStats() {
-  return incidentService.getStats();
- }
+@GetMapping("/stats")
+public Map<String, Long> getStats(
+ @RequestParam(defaultValue = "7") String period
+){
+ return incidentService.getStats(period);
+}
 
  // ✅ FIXED CREATE (IMPORTANT)
  @PostMapping
@@ -110,6 +112,8 @@ public String uploadFile(@RequestParam("file") MultipartFile file) {
 
  return "File uploaded successfully";
 }
+
+
 
 
 }
