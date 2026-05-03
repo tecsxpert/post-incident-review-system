@@ -1,19 +1,17 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { API } from "../api"
+import API from "../api"
 import "./incidentForm.css"
 
 export default function CreateIncident(){
 
  const navigate = useNavigate()
-
  const [saving,setSaving]=useState(false)
 
  const [data,setData]=useState({
   title:"",
   description:"",
-  status:"OPEN",
-  severity:"LOW"
+  status:"OPEN"
  })
 
  const handleSubmit = async () => {
@@ -26,12 +24,16 @@ export default function CreateIncident(){
   try{
    setSaving(true)
 
-   await API.post("/incidents", data)
+   await API.post("/incidents", {
+    title: data.title,
+    description: data.description,
+    status: data.status
+   })
 
-   navigate("/incidents", { replace: true })
-   window.location.reload()
+   navigate("/incidents")
 
   }catch(e){
+   console.error(e)
    alert("Create failed")
   }finally{
    setSaving(false)
@@ -62,15 +64,6 @@ export default function CreateIncident(){
     >
      <option value="OPEN">OPEN</option>
      <option value="CLOSED">CLOSED</option>
-    </select>
-
-    <select
-     value={data.severity}
-     onChange={(e)=>setData({...data,severity:e.target.value})}
-    >
-     <option value="LOW">LOW</option>
-     <option value="MEDIUM">MEDIUM</option>
-     <option value="HIGH">HIGH</option>
     </select>
 
     <button disabled={saving} onClick={handleSubmit}>

@@ -99,3 +99,15 @@
  margin-top:50px;
  color:var(--sub);
 }
+.filters{
+ display:flex;
+ gap:10px;
+ margin-bottom:20px;
+}
+
+.filters input,
+.filters select{
+ padding:8px;
+ border-radius:6px;
+ border:1px solid var(--border);
+}

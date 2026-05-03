@@ -2,32 +2,108 @@ package com.internship.tool.service;
 
 import com.internship.tool.entity.Incident;
 import com.internship.tool.repository.IncidentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Optional;
 
 @Service
 public class IncidentService {
 
-    private final IncidentRepository repo;
+ @Autowired
+ private IncidentRepository incidentRepository;
 
-    public IncidentService(IncidentRepository repo) {
-        this.repo = repo;
-    }
+ // ✅ SEARCH (with filters + date range)
+ public Page<Incident> search(String q, String status, String start, String end, int page, int size) {
 
-    public List<Incident> getAll() {
-        return repo.findAll();
-    }
+ Pageable pageable = PageRequest.of(page, size);
 
-    public Incident save(Incident incident) {
-        return repo.save(incident);
-    }
+ LocalDateTime startDate = null;
+ LocalDateTime endDate = null;
 
-    public void delete(Long id) {
-        repo.deleteById(id);
-    }
+ if (start != null && !start.isEmpty()) {
+  startDate = LocalDate.parse(start).atStartOfDay();
+ }
 
-    public List<Incident> search(String keyword) {
-        return repo.findAll(); // simplified
-    }
+ if (end != null && !end.isEmpty()) {
+  endDate = LocalDate.parse(end).atTime(23, 59, 59);
+ }
+
+ // 🔥 IMPORTANT: Use default values instead of NULL
+ if (startDate == null) {
+  startDate = LocalDateTime.of(1970, 1, 1, 0, 0);
+ }
+
+ if (endDate == null) {
+  endDate = LocalDateTime.now();
+ }
+
+ return incidentRepository.search(
+  (q == null || q.trim().isEmpty()) ? "" : q,
+  (status == null || status.trim().isEmpty()) ? "" : status,
+  startDate,
+  endDate,
+  pageable
+ );
+}
+public Incident create(Incident incident) {
+ return incidentRepository.save(incident);
+}
+public Incident getById(Long id) {
+ return incidentRepository.findById(id)
+  .orElseThrow(() -> new RuntimeException("Incident not found"));
+}
+ // ✅ GET ALL (pagination)
+ public Page<Incident> getAll(int page, int size) {
+  Pageable pageable = PageRequest.of(page, size);
+  return incidentRepository.findAll(pageable);
+ }
+public Map<String, Long> getStats() {
+
+ List<Incident> all = incidentRepository.findAll(); // 🔥 FULL DATA
+
+ long total = all.size();
+ long open = all.stream().filter(i -> "OPEN".equals(i.getStatus())).count();
+ long closed = all.stream().filter(i -> "CLOSED".equals(i.getStatus())).count();
+
+ Map<String, Long> stats = new HashMap<>();
+ stats.put("total", total);
+ stats.put("open", open);
+ stats.put("closed", closed);
+
+ return stats;
+}
+ // ✅ CREATE
+ public Incident create(Incident incident) {
+  return incidentRepository.save(incident);
+ }
+
+ // ✅ UPDATE
+ public Incident update(Long id, Incident updatedIncident) {
+  Optional<Incident> optionalIncident = incidentRepository.findById(id);
+
+  if (optionalIncident.isPresent()) {
+   Incident existing = optionalIncident.get();
+
+   existing.setTitle(updatedIncident.getTitle());
+   existing.setDescription(updatedIncident.getDescription());
+   existing.setStatus(updatedIncident.getStatus());
+   existing.setSeverity(updatedIncident.getSeverity());
+
+   return incidentRepository.save(existing);
+  } else {
+   throw new RuntimeException("Incident not found with id " + id);
+  }
+ }
+
+ // ✅ DELETE
+ public void delete(Long id) {
+  incidentRepository.deleteById(id);
+ }
 }

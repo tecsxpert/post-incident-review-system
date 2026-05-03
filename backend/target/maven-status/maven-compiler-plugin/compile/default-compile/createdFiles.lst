@@ -1,7 +1,2 @@
 com/internship/tool/entity/Incident.class
-com/internship/tool/config/WebConfig.class
 com/internship/tool/BackendApplication.class
-com/internship/tool/service/IncidentService.class
-com/internship/tool/config/WebConfig$1.class
-com/internship/tool/repository/IncidentRepository.class
-com/internship/tool/controller/IncidentController.class

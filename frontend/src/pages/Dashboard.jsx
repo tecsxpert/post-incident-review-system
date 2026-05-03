@@ -1,25 +1,49 @@
-import { useState } from "react"
-import { BarChart,Bar,XAxis,YAxis,Tooltip,ResponsiveContainer } from "recharts"
+import { useState, useEffect } from "react"
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts"
 import { useTheme } from "../context/ThemeContext"
+import API from "../api"
 import "./dashboard.css"
 
 export default function Dashboard(){
 
  const { dark } = useTheme()
 
- const [stats]=useState({
-  total:2,
-  open:2,
-  closed:0,
-  critical:1
+ const [stats, setStats] = useState({
+  total: 0,
+  open: 0,
+  closed: 0
  })
 
- const data=[
-  { name:"Total",value:stats.total },
-  { name:"Open",value:stats.open },
-  { name:"Closed",value:stats.closed },
-  { name:"Critical",value:stats.critical }
+ const [loading, setLoading] = useState(true)
+
+ // 🔥 FETCH FROM BACKEND
+ useEffect(() => {
+  fetchStats()
+ }, [])
+
+ const fetchStats = async () => {
+  try {
+   const res = await API.get("/incidents/stats")
+
+   setStats({
+    total: res.data.total,
+    open: res.data.open,
+    closed: res.data.closed
+   })
+
+  } catch (err) {
+   console.log("Error fetching stats", err)
+  }
+  setLoading(false)
+ }
+
+ const data = [
+  { name:"Total", value:stats.total },
+  { name:"Open", value:stats.open },
+  { name:"Closed", value:stats.closed }
  ]
+
+ if (loading) return <h3 style={{ padding:"20px" }}>Loading...</h3>
 
  return(
   <div className="dashboard">
@@ -44,11 +68,6 @@ export default function Dashboard(){
     <div className="card">
      <span>Closed</span>
      <h2>{stats.closed}</h2>
-    </div>
-
-    <div className="card">
-     <span>Critical</span>
-     <h2>{stats.critical}</h2>
     </div>
 
    </div>
