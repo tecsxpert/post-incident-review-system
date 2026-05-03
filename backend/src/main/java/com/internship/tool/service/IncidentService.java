@@ -106,28 +106,30 @@ public Map<String, Long> getStats() {
  return incidentRepository.findAll();
 }
 
-public Map<String, Long> getStats(String period) {
+ // ✅ THIS MUST BE INSIDE CLASS
+ public Map<String, Long> getStats(String period) {
 
- LocalDateTime now = LocalDateTime.now();
- LocalDateTime start = null;
+  LocalDateTime now = LocalDateTime.now();
+  LocalDateTime start = null;
 
- if ("7".equals(period)) start = now.minusDays(7);
- if ("30".equals(period)) start = now.minusDays(30);
+  if ("7".equals(period)) start = now.minusDays(7);
+  if ("30".equals(period)) start = now.minusDays(30);
 
- List<Incident> list = (start == null)
-  ? incidentRepository.findAll()
-  : incidentRepository.findByCreatedAtAfter(start);
+  long total = (start == null)
+   ? incidentRepository.count()
+   : incidentRepository.countRecent(start);
 
- long total = list.size();
- long open = list.stream().filter(i -> "OPEN".equals(i.getStatus())).count();
- long closed = list.stream().filter(i -> "CLOSED".equals(i.getStatus())).count();
+  List<Incident> list = (start == null)
+   ? incidentRepository.findAll()
+   : incidentRepository.findByCreatedAtAfter(start);
 
- return Map.of(
-  "total", total,
-  "open", open,
-  "closed", closed
- );
-}
+  long open = list.stream().filter(i -> "OPEN".equals(i.getStatus())).count();
+  long closed = list.stream().filter(i -> "CLOSED".equals(i.getStatus())).count();
 
-
+  return Map.of(
+   "total", total,
+   "open", open,
+   "closed", closed
+  );
+ }
 }

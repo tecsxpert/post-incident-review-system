@@ -28,6 +28,9 @@ public interface IncidentRepository extends JpaRepository<Incident, Long> {
   Pageable pageable
  );
 
- // ✅ ADD THIS (IMPORTANT)
  List<Incident> findByCreatedAtAfter(LocalDateTime time);
+
+ // ✅ ADD THIS (FOR PERFORMANCE)
+ @Query("SELECT COUNT(i) FROM Incident i WHERE i.createdAt > :time")
+ long countRecent(@Param("time") LocalDateTime time);
 }
