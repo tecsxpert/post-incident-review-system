@@ -52,9 +52,6 @@ public class IncidentService {
   pageable
  );
 }
-public Incident create(Incident incident) {
- return incidentRepository.save(incident);
-}
 public Incident getById(Long id) {
  return incidentRepository.findById(id)
   .orElseThrow(() -> new RuntimeException("Incident not found"));
@@ -94,7 +91,6 @@ public Map<String, Long> getStats() {
    existing.setTitle(updatedIncident.getTitle());
    existing.setDescription(updatedIncident.getDescription());
    existing.setStatus(updatedIncident.getStatus());
-   existing.setSeverity(updatedIncident.getSeverity());
 
    return incidentRepository.save(existing);
   } else {

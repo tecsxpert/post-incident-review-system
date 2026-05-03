@@ -26,7 +26,9 @@ export default function Layout(){
      onClick={()=>navigate("/incidents")}>
      Incidents
     </button>
-
+<button onClick={()=>navigate("/ai")}>
+ 🤖 AI Assistant
+</button>
     <button onClick={toggleTheme}>
      {dark ? "☀ Light" : "🌙 Dark"}
     </button>

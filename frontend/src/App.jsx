@@ -6,7 +6,7 @@ import CreateIncident from "./pages/CreateIncident"
 import IncidentDetail from "./pages/IncidentDetail"
 import Layout from "./components/Layout"
 import ProtectedRoute from "./routes/ProtectedRoute"
-
+import AIPanel from "./pages/AIPanel"
 export default function App(){
  return(
   <BrowserRouter>
@@ -20,6 +20,7 @@ export default function App(){
       <Route path="/incidents" element={<Incidents/>} />
       <Route path="/create" element={<CreateIncident/>} />
       <Route path="/incident/:id" element={<IncidentDetail/>} />
+      <Route path="/ai" element={<AIPanel />} />
      </Route>
     </Route>
 

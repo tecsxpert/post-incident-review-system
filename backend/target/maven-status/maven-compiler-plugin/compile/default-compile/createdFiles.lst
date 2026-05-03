@@ -1,2 +1,10 @@
 com/internship/tool/entity/Incident.class
+com/internship/tool/repository/IncidentRepository.class
+com/internship/tool/aop/AuditAspect.class
+com/internship/tool/controller/IncidentController.class
+com/internship/tool/config/CorsConfig.class
+com/internship/tool/config/CorsConfig$1.class
 com/internship/tool/BackendApplication.class
+com/internship/tool/service/IncidentService.class
+com/internship/tool/controller/AIController.class
+com/internship/tool/spec/IncidentSpecification.class
