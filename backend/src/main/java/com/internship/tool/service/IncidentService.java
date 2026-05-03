@@ -102,4 +102,7 @@ public Map<String, Long> getStats() {
  public void delete(Long id) {
   incidentRepository.deleteById(id);
  }
+ public List<Incident> getAllList(){
+ return incidentRepository.findAll();
+}
 }
