@@ -1,0 +1,92 @@
+.detail-wrapper{
+ display:flex;
+ justify-content:center;
+ align-items:flex-start;
+ padding:40px;
+}
+
+.detail-card{
+ width:420px; /* FIXED WIDTH */
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:12px;
+ padding:20px;
+ box-shadow:0 6px 20px rgba(0,0,0,0.08);
+}
+
+.detail-card h2{
+ margin-bottom:15px;
+ color:var(--text);
+}
+
+.field{
+ margin-bottom:15px;
+}
+
+.field label{
+ display:block;
+ margin-bottom:5px;
+ font-size:13px;
+ color:var(--sub);
+}
+
+.field input,
+.field textarea{
+ width:100%;
+ padding:8px; /* SMALLER INPUT */
+ border-radius:6px;
+ border:1px solid var(--border);
+ background:transparent;
+ color:var(--text);
+ outline:none;
+}
+
+.field textarea{
+ height:80px;
+ resize:none;
+}
+
+.desc{
+ color:var(--sub);
+ margin-bottom:15px;
+}
+
+.meta{
+ display:flex;
+ gap:10px;
+ margin-bottom:15px;
+ font-size:13px;
+ color:var(--sub);
+}
+
+.actions{
+ display:flex;
+ gap:10px;
+}
+
+.btn{
+ padding:8px 12px; /* SMALL BUTTON */
+ border:none;
+ border-radius:6px;
+ cursor:pointer;
+ font-size:13px;
+}
+
+.primary{
+ background:#6366f1;
+ color:white;
+}
+
+.cancel{
+ background:#6b7280;
+ color:white;
+}
+
+.danger{
+ background:#ef4444;
+ color:white;
+}
+
+.loading{
+ padding:20px;
+}

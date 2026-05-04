@@ -1,0 +1,10 @@
+/Users/srujants/post-incident-review-system/backend/src/main/java/com/internship/tool/controller/AIController.java
+/Users/srujants/post-incident-review-system/backend/src/main/java/com/internship/tool/BackendApplication.java
+/Users/srujants/post-incident-review-system/backend/src/main/java/com/internship/tool/repository/IncidentRepository.java
+/Users/srujants/post-incident-review-system/backend/src/main/java/com/internship/tool/aop/AuditAspect.java
+/Users/srujants/post-incident-review-system/backend/src/main/java/com/internship/tool/controller/IncidentController.java
+/Users/srujants/post-incident-review-system/backend/src/main/java/com/internship/tool/config/DataSeeder.java
+/Users/srujants/post-incident-review-system/backend/src/main/java/com/internship/tool/entity/Incident.java
+/Users/srujants/post-incident-review-system/backend/src/main/java/com/internship/tool/service/IncidentService.java
+/Users/srujants/post-incident-review-system/backend/src/main/java/com/internship/tool/config/CorsConfig.java
+/Users/srujants/post-incident-review-system/backend/src/main/java/com/internship/tool/spec/IncidentSpecification.java
