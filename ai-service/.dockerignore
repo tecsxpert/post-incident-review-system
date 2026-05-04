@@ -1,0 +1,14 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+chroma_data/
+*.log
+.git/
+.gitignore
+README.md
+test_*.py
+SECURITY.md
+zap_report.html

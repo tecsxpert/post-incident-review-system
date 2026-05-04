@@ -2,21 +2,35 @@ import re
 from flask import Flask, request, jsonify
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from services.groq_client import GroqClient
+from flask_cors import CORS
+from dotenv import load_dotenv
+from services.security_headers import apply_security_headers
+from services.error_handlers import apply_error_handlers
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
+CORS(app, resources={
+    r"/*": {
+        "origins": os.getenv("ALLOWED_ORIGINS", "http://localhost:80").split(","),
+        "methods": ["GET", "POST"],
+        "allow_headers": ["Content-Type"]
+    }
+})
 
-# setting up rate limiter - max 30 requests per minute
+# Apply security headers and error handlers
+apply_security_headers(app)
+apply_error_handlers(app)
+
+# Setting up rate limiter
 limiter = Limiter(
     get_remote_address,
     app=app,
     default_limits=["30 per minute"]
 )
 
-# initialising groq client
-groq_client = GroqClient()
-
-# list of prompt injection patterns to detect
+# List of prompt injection patterns
 INJECTION_PATTERNS = [
     "ignore previous instructions",
     "ignore all instructions",
@@ -28,12 +42,10 @@ INJECTION_PATTERNS = [
 ]
 
 def strip_html(text: str) -> str:
-    # removing html tags from input
     clean = re.compile('<.*?>')
     return re.sub(clean, '', text)
 
 def detect_prompt_injection(text: str) -> bool:
-    # checking if input contains prompt injection patterns
     text_lower = text.lower()
     for pattern in INJECTION_PATTERNS:
         if pattern in text_lower:
@@ -47,45 +59,40 @@ def sanitize_request():
         if data:
             for key in data:
                 if isinstance(data[key], str):
-                    # strip html
                     data[key] = strip_html(data[key])
-                    # check for injection
                     if detect_prompt_injection(data[key]):
                         return jsonify({"error": "Invalid input detected"}), 400
 
-# adding security headers to all responses
 @app.after_request
 def add_security_headers(response):
-    response.headers['Content-Security-Policy'] = "default-src 'self'; script-src 'self'; style-src 'self'"
+    response.headers['Content-Security-Policy'] = "default-src 'self'"
     response.headers['X-Content-Type-Options'] = 'nosniff'
     response.headers['X-Frame-Options'] = 'DENY'
     response.headers['Server'] = 'Unknown'
     return response
 
-@app.route('/health', methods=['GET'])
-def health():
-    return jsonify({"status": "ok"})
+# Register all blueprints
+from routes.health import health_bp
+from routes.describe import describe_bp
+from routes.recommend import recommend_bp
+from routes.generate_report import generate_report_bp
 
-@app.route('/describe', methods=['POST'])
-@limiter.limit("30 per minute")
-def describe():
-    data = request.get_json(silent=True)
+app.register_blueprint(health_bp)
+app.register_blueprint(describe_bp)
+app.register_blueprint(recommend_bp)
+app.register_blueprint(generate_report_bp)
 
-    if not data or 'text' not in data:
-        return jsonify({"error": "No input provided"}), 400
+@app.route("/")
+def index():
+    return jsonify({
+        "service": "Tool-38 AI Service",
+        "status": "running"
+    })
 
-    if data['text'].strip() == "":
-        return jsonify({"error": "Input cannot be empty"}), 400
-
-    user_input = data['text']
-
-    # calling groq to describe the incident
-    result = groq_client.call(f"Describe this incident briefly: {user_input}")
-
-    if result and result.get("success"):
-        return jsonify({"message": result["data"]}), 200
-    else:
-        return jsonify({"error": "AI service unavailable"}), 500
-
-if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=True)
+if __name__ == "__main__":
+    from services.embeddings import load_model
+    from services.chromadb_service import init_chromadb
+    load_model()
+    init_chromadb()
+    debug_mode = os.getenv("FLASK_ENV", "production") == "development"
+    app.run(host="0.0.0.0", port=5000, debug=debug_mode)

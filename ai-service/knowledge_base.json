@@ -1,0 +1,14 @@
+{
+  "documents": [
+    {"id": "doc_001", "text": "Database connection pool exhaustion occurs when all available connections are in use and no new connections can be created.", "category": "database"},
+    {"id": "doc_002", "text": "Memory leaks in web applications occur when objects are allocated in memory but never released.", "category": "memory"},
+    {"id": "doc_003", "text": "API gateway 503 errors indicate the service is temporarily unavailable due to backend failures or resource exhaustion.", "category": "api"},
+    {"id": "doc_004", "text": "Authentication service latency spikes can be caused by database query degradation or increased user load.", "category": "auth"},
+    {"id": "doc_005", "text": "SMTP credential expiration causes email notification failures. Rotate credentials before expiry.", "category": "email"},
+    {"id": "doc_006", "text": "Disk space exhaustion causes service failures when log files fill available storage. Implement log rotation.", "category": "infrastructure"},
+    {"id": "doc_007", "text": "S3 bucket permission errors occur when IAM policies are modified without updating dependent services.", "category": "cloud"},
+    {"id": "doc_008", "text": "Network timeout incidents are caused by misconfigured timeout values or downstream service degradation.", "category": "network"},
+    {"id": "doc_009", "text": "CPU throttling occurs when a service exceeds its allocated CPU quota causing increased response times.", "category": "performance"},
+    {"id": "doc_010", "text": "SSL certificate expiration causes all HTTPS connections to fail. Monitor expiry with 30 days warning.", "category": "security"}
+  ]
+}

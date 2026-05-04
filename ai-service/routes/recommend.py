@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from services.groq_client import call_groq
 from services.prompt_loader import load_prompt
 from datetime import datetime
+from services.cache import get_cached, set_cached
 import json
 import logging
 import re
@@ -93,6 +94,13 @@ def recommend():
         "severity": data["severity"].upper()
     }
 
+    # 3.5 Check cache first
+    cached = get_cached("recommend", cleaned)
+    if cached:
+        cached["from_cache"] = True
+        return jsonify(cached), 200
+
+
     # 4. Load prompt template
     try:
         prompt = load_prompt("recommend.txt", **cleaned)
@@ -101,7 +109,7 @@ def recommend():
         return jsonify({"error": "Internal prompt error"}), 500
 
     # 5. Call Groq
-    raw_result = call_groq(prompt, temperature=0.3)
+    raw_result = call_groq(prompt, temperature=0.3, max_tokens=400)
 
     # 6. Handle Groq failure
     if raw_result is None:
@@ -132,8 +140,11 @@ def recommend():
 
     except json.JSONDecodeError:
         logger.error(f"Groq returned invalid JSON: {raw_result}")
-        return jsonify({
-            "recommendations": FALLBACK_RESPONSE,
+        result = {
+            "recommendations": parsed,
             "generated_at": datetime.utcnow().isoformat(),
-            "is_fallback": True
-        }), 200
+            "is_fallback": False,
+            "from_cache": False
+        }
+        set_cached("recommend", cleaned, result)
+        return jsonify(result), 200
