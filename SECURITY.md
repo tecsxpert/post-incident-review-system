@@ -131,3 +131,54 @@ No Critical or High findings. All fixable issues have been addressed.
 - Rate limiting active 
 - Injection protection active 
 - PII audit confirmed clean 
+
+## Executive Summary
+
+This document covers the complete security assessment of 
+Tool-38 Post-Incident Review System AI service conducted 
+during the sprint from 14 April to 9 May 2026.
+
+The AI service was built using Python Flask with Groq's 
+LLaMA-3.3-70b model. Security was a priority throughout 
+the sprint with testing conducted every week.
+
+---
+
+## Threats Identified and Fixed
+
+| Threat | Status |
+|---|---|
+| Prompt Injection | Fixed — sanitisation middleware added |
+| API Key Exposure | Fixed — stored in .env, listed in .gitignore |
+| SQL Injection | Handled by Java backend using Spring JPA |
+| Brute Force Attack | Fixed — flask-limiter 30 req/min added |
+| Cross Site Scripting | Fixed — HTML stripping middleware added |
+
+---
+
+## OWASP ZAP Findings Fixed
+
+| Finding | Severity | Status |
+|---|---|---|
+| CSP Header Not Set | Medium | Fixed |
+| X-Content-Type-Options Missing | Low | Fixed |
+| Server Version Leakage | Low | Fixed |
+
+---
+
+## Residual Risks
+
+| Risk | Reason | Plan |
+|---|---|---|
+| In-memory rate limiting | Redis not yet configured | Will be fixed when Redis is added to docker-compose |
+| Debug mode enabled | Development environment only | Will be disabled in production |
+
+---
+
+## Team Sign-Off
+
+| Member | Role | Sign-Off |
+|---|---|---|
+| Poornima | AI Developer 2 | Confirmed — all security measures verified |
+
+*Final SECURITY.md completed on 29 April 2026*
