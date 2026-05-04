@@ -181,4 +181,23 @@ the sprint with testing conducted every week.
 |---|---|---|
 | Poornima | AI Developer 2 | Confirmed — all security measures verified |
 
-*Final SECURITY.md completed on 29 April 2026*
+## Final Security Checklist — Day 13
+
+### Security Features Verified:
+- [ ] Input sanitisation working 
+- [ ] Prompt injection detection working 
+- [ ] HTML stripping working 
+- [ ] Rate limiting 30 req/min working 
+- [ ] Security headers added 
+- [ ] API key stored in .env 
+- [ ] .env listed in .gitignore 
+- [ ] OWASP ZAP scan completed 
+- [ ] All Critical/High findings fixed 
+- [ ] PII audit completed 
+- [ ] Docker container working 
+- [ ] Unit tests passing 
+
+### Final Sign-Off:
+- Poornima — AI Developer 2 
+
+*Security checklist completed and signed off on 4 May 2026*
