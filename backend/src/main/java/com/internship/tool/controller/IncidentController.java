@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/incidents")
 public class IncidentController {
@@ -19,7 +20,7 @@ public class IncidentController {
         this.incidentService = incidentService;
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+   // @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<Incident>> getAllIncidents() {
         return ResponseEntity.ok(incidentService.getAllIncidents());
