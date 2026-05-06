@@ -125,3 +125,46 @@ I completed integration testing using Docker Compose.
 - Configured test folder structure correctly
 - Ran mvn clean test successfully
 - Verified test cases execution
+
+
+## Day 12 Progress
+
+- Implemented DataSeeder for demo data
+- Inserted 30 incident records
+- Verified API using browser
+- Successfully fetched all incidents
+
+## Output Screenshot
+
+## Day 12 Progress
+
+- Implemented DataSeeder for demo data
+- Inserted 30 incident records
+- Verified API using browser
+- Successfully fetched all incidents
+
+
+
+## Day 12 Progress
+
+- Implemented DataSeeder for demo data
+- Inserted 30 incident records
+- Verified API using browser
+- Successfully fetched all incidents
+- Created simple frontend UI to display incidents
+- Integrated frontend with backend using fetch API
+- Resolved CORS issue for frontend-backend communication
+
+Output Screenshots
+🔹 Backend (API + Data)
+![alt text](backend1.png)
+![alt text](backend2.png)
+![alt text](backend3.png) 
+![alt text](backend4.png)
+![alt text](backend5.png) 
+![alt text](backend6.png) 
+![alt text](backend7.png)
+![alt text](backend8.png)
+
+🔹 Frontend (UI Display)
+![alt text](frontend.png) 

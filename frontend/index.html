@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Incident Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #eef3f8;
+            margin: 0;
+            padding: 16px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1B4F8A;
+            margin-bottom: 24px;
+        }
+
+        #data {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px; /* 8px grid */
+        }
+
+        .card {
+            background: white;
+            padding: 16px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1B4F8A;
+            margin-bottom: 8px;
+        }
+
+        .desc {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .status {
+            font-size: 13px;
+            padding: 6px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            color: white;
+        }
+
+        .open {
+            background-color: #28a745;
+        }
+
+        .progress {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .closed {
+            background-color: #dc3545;
+        }
+
+        button {
+            background-color: #1B4F8A;
+            color: white;
+            border: none;
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 6px;
+            width: 100%;
+            min-height: 44px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Incident Dashboard</h1>
+
+<div id="data"></div>
+
+<script>
+fetch("http://localhost:8080/incidents/all")
+    .then(res => res.json())
+    .then(data => {
+        const container = document.getElementById("data");
+
+        data.forEach(item => {
+            const div = document.createElement("div");
+            div.className = "card";
+
+            let statusClass = "open";
+            if(item.status === "Closed") statusClass = "closed";
+            if(item.status === "In Progress") statusClass = "progress";
+
+            div.innerHTML = `
+                <div class="title">${item.title}</div>
+                <div class="desc">${item.description}</div>
+                <div class="status ${statusClass}">${item.status}</div>
+                <button>View Details</button>
+            `;
+
+            container.appendChild(div);
+        });
+    });
+</script>
+
+</body>
+</html>
