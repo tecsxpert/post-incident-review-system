@@ -1,170 +1,167 @@
-# Post Incident Review System
+# Post-Incident Review System
 
-## My Role
-Java Developer 1
+##  Project Overview
 
-## Tech Stack Used
+The Post-Incident Review System is a full-stack application developed to manage and review incidents efficiently.  
+The system allows users to create, view, update, and manage incident records with secure authentication and backend integration.
+
+This project was developed as part of the internship sprint project.
+
+---
+
+#  Features
+
+- JWT Authentication
+- Incident Management APIs
+- Secure REST Endpoints
+- Redis Caching
+- PostgreSQL Database Integration
+- Data Seeder with 30 Demo Records
+- Frontend Integration using HTML/CSS/JavaScript
+- Responsive UI Design
+- API Testing and Validation
+
+
+
+# Architecture Diagram
+
+
+                ┌────────────────────┐
+                │     Frontend       │
+                │ HTML / CSS / JS    │
+                └─────────┬──────────┘
+                          ↓
+                ┌────────────────────┐
+                │ Spring Boot Backend│
+                │ REST APIs + JWT    │
+                └─────────┬──────────┘
+                          ↓
+        ┌─────────────────┴─────────────────┐
+        ↓                                   ↓
+┌──────────────────┐              ┌──────────────────┐
+│ PostgreSQL DB    │              │   Redis Cache    │
+│ Incident Records │              │ Faster Responses │
+└──────────────────┘              └──────────────────┘
+
+
+# Tech Stack Used
+
+Backend:
 - Java 17
 - Spring Boot
-- Spring Data JPA
+- Spring Security
+- JWT Authentication
+- Redis
+- PostgreSQL
+- Maven
+
+Frontend:
+- HTML
+- CSS
+- JavaScript
+- Fetch API
+
+Tools:
+- VS Code
+- Postman
+- Docker Desktop
+- Git & GitHub
+
+
+# Project Structure
+post-incident-review-system/
+│
+├── backend/
+│
+├── frontend/
+│   └── index.html
+│
+├── screenshots/
+│
+├── docker-compose.yml
+│
+├── .env.example
+│
+└── README.md  
+
+
+# ⚙ Prerequisites
+
+Before running the project install:
+
+- Java 17
 - Maven
 - PostgreSQL
+- Docker Desktop
 - Git
-- GitHub
 - VS Code
 
-### Day 1
-- Spring Boot project setup completed
-- Maven configured successfully
-- Java 17 environment setup completed
-- Project folder structure created
-- application.yml configured
-- Project build and run verified
+---
 
-### Day 2
-- Created Incident entity class
-- Added JPA annotations (@Entity, @Table, @Id)
-- Added database fields for incident records
-- Created IncidentRepository interface
-- Added custom query methods
-- Build verified successfully
+# Setup Instructions
+1️. Clone Repository
+   git clone <repository-url>
+2️. Go to Backend Folder
+   cd backend
+3️. Run Backend
+   mvn spring-boot:run
 
-### Day 3
-- Implemented IncidentService class
-- Added business logic for creating and fetching incidents
-- Added input validation for required fields
-- Created ResourceNotFoundException class
-- Created InvalidDataException class
-- Integrated service layer with IncidentRepository
-- Verified project build successfully using Maven
+Backend runs on:
+http://localhost:8080
+
+4️. Run Frontend
+   Open:frontend/index.html in browser
 
 
-### Day 4
-- Created IncidentController
-- Added GET /all endpoint with pagination
-- Added GET /{id} endpoint
-- Added POST /create endpoint with @Valid
-- Created IncidentRequest DTO
-- Verified project build successfully using Maven
+# Environment Variables
+
+Create .env file using below reference:
+
+| Variable    | Description             |
+| ----------- | ----------------------- |
+| DB_URL      | PostgreSQL database URL |
+| DB_USERNAME | Database username       |
+| DB_PASSWORD | Database password       |
+| JWT_SECRET  | Secret key for JWT      |
+| REDIS_HOST  | Redis host              |
+| REDIS_PORT  | Redis port              |
 
 
-### Day 5
-- Added JwtUtil class
-- Added JwtAuthFilter
-- Added SecurityConfig
-- Created AuthController
-- Added /register, /login, and /refresh endpoints
-- Verified project build successfully using Maven
+# API Endpoint
+Get All Incidents
+GET /incidents/all
+Example:http://localhost:8080/incidents/all
+
+# UI Brand Guidelines Applied
+Primary Color: #1B4F8A
+Font: Arial
+8px spacing grid
+44px touch targets
+
+# Output Screenshots
+Backend Output
+![Backend 1](./screenshots/backend1.png)
+![Backend 2](./screenshots/backend2.png)
+![Backend 3](./screenshots/backend3.png)
+![Backend 4](./screenshots/backend4.png)
+![Backend 5](./screenshots/backend5.png)
+![Backend 6](./screenshots/backend6.png)
+![Backend 7](./screenshots/backend7.png)
+![Backend 8](./screenshots/backend8.png)
 
 
-## Day 6 
-
-- Added Redis caching
-- Added 10 minute cache time
-- Used @Cacheable for GET APIs
-- Used @CacheEvict for Create, Update, Delete APIs
-- Added RBAC security
-- Used @PreAuthorize for role access
-
-### Access
-- USER and ADMIN can view data
-- ADMIN can add, update, delete data
+Frontend Output
+![Frontend](./screenshots/frontend.png)
 
 
-## Day 7 
-
-- Added email notification feature
-- Used JavaMailSender
-- Added ReminderService
-- Added daily scheduled reminder
-- Added deadline alert email
-- Enabled scheduling in application
-
-### Schedule
-- Daily reminder at 9:00 AM
-- Deadline alert at 5:00 PM
+# Project Status
+- Backend Completed
+- Frontend Integrated
+- API Working Successfully
+- Data Seeder Implemented
+- README Documentation Completed
 
 
-## Day 8 Progress
-
-- Added global exception handling
-- Added consistent JSON error response
-- Added 404 / 400 / 500 handlers
-- Added JUnit 5 tests
-- Added Mockito tests
-- Build successful
-
-
-## Day 9 Progress
-
-- Added docker-compose.yml in project root
-- Configured 5 services:
-  - backend
-  - PostgreSQL
-  - Redis
-  - AI service
-  - frontend
-- Added healthchecks for PostgreSQL and Redis
-- Tested Docker commands
-- Docker image pull attempted
-
-
-## Day 10 Progress
-I completed integration testing using Docker Compose.
-- Executed docker compose down -v and docker compose up --build
-- PostgreSQL and Redis containers pulled successfully
-- Backend container setup completed with Dockerfile
-- Identified and fixed configuration issues during setup
-- Backend container build could not be completed due to Docker Hub network issue
-
-
-## Day 11 Progress
-
-- Fixed issues in service and controller classes
-- Created unit tests for IncidentService
-- Configured test folder structure correctly
-- Ran mvn clean test successfully
-- Verified test cases execution
-
-
-## Day 12 Progress
-
-- Implemented DataSeeder for demo data
-- Inserted 30 incident records
-- Verified API using browser
-- Successfully fetched all incidents
-
-## Output Screenshot
-
-## Day 12 Progress
-
-- Implemented DataSeeder for demo data
-- Inserted 30 incident records
-- Verified API using browser
-- Successfully fetched all incidents
-
-
-
-## Day 12 Progress
-
-- Implemented DataSeeder for demo data
-- Inserted 30 incident records
-- Verified API using browser
-- Successfully fetched all incidents
-- Created simple frontend UI to display incidents
-- Integrated frontend with backend using fetch API
-- Resolved CORS issue for frontend-backend communication
-
-Output Screenshots
-🔹 Backend (API + Data)
-![alt text](backend1.png)
-![alt text](backend2.png)
-![alt text](backend3.png) 
-![alt text](backend4.png)
-![alt text](backend5.png) 
-![alt text](backend6.png) 
-![alt text](backend7.png)
-![alt text](backend8.png)
-
-🔹 Frontend (UI Display)
-![alt text](frontend.png) 
+ Developer
+ Priya Udagatti
+ Java Developer 1
