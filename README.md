@@ -151,7 +151,7 @@ Backend Output
 
 
 Frontend Output
-![Frontend](./screenshots/frontend.png)
+![Frontend](./screenshots/frontend.png) 
 
 
 # Project Status

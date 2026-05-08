@@ -11,16 +11,64 @@
             padding: 16px;
         }
 
-        h1 {
+        h1, h2 {
             text-align: center;
             color: #1B4F8A;
+        }
+
+        #stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
             margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            color: #1B4F8A;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        #search {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .export-btn {
+            background-color: #1B4F8A;
+            color: white;
+            border: none;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            width: 100%;
+            min-height: 44px;
+            cursor: pointer;
+            font-size: 16px;
         }
 
         #data {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px; /* 8px grid */
+            gap: 16px;
         }
 
         .card {
@@ -45,6 +93,12 @@
         .desc {
             font-size: 14px;
             margin-bottom: 8px;
+        }
+
+        .severity {
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: bold;
         }
 
         .status {
@@ -79,6 +133,23 @@
             min-height: 44px;
             cursor: pointer;
         }
+
+        #auditLog {
+            margin-top: 30px;
+            background: white;
+            padding: 16px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        #auditLog ul {
+            padding-left: 20px;
+        }
+
+        #auditLog li {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
     </style>
 </head>
 
@@ -86,32 +157,138 @@
 
 <h1>Incident Dashboard</h1>
 
+<div id="stats">
+    <div class="stat-card">
+        <h3>Total</h3>
+        <p id="total">0</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Open</h3>
+        <p id="open">0</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Closed</h3>
+        <p id="closed">0</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>High</h3>
+        <p id="high">0</p>
+    </div>
+</div>
+
+<input type="text"
+       id="search"
+       placeholder="Search by title"
+       onkeyup="searchIncident()">
+
+<button class="export-btn" onclick="downloadCSV()">
+    Export CSV
+</button>
+
 <div id="data"></div>
 
+<div id="auditLog">
+    <h2>Audit Log</h2>
+
+    <ul>
+        <li>
+            Incident Created by Priya -
+            08 May 2026, 09:10 PM
+        </li>
+
+        <li>
+            Incident Updated by Priya -
+            08 May 2026, 09:20 PM
+        </li>
+
+        <li>
+            Incident Deleted by Priya -
+            08 May 2026, 09:30 PM
+        </li>
+    </ul>
+</div>
+
+<div id="emailNotification">
+    <h2>Email Notification</h2>
+
+    <p>
+        Email notification is triggered from backend
+        when incident is created or updated.
+    </p>
+</div>
+
 <script>
-fetch("http://localhost:8080/incidents/all")
-    .then(res => res.json())
-    .then(data => {
+    let allData = [];
+
+    fetch("http://localhost:8080/incidents/all")
+        .then(res => res.json())
+        .then(data => {
+            allData = data;
+
+            displayData(data);
+            updateStats(data);
+        });
+
+    function updateStats(data) {
+        document.getElementById("total").innerText = data.length;
+
+        const open = data.filter(i => i.status === "Open").length;
+        const closed = data.filter(i => i.status === "Closed").length;
+        const high = data.filter(i => i.severity === "High").length;
+
+        document.getElementById("open").innerText = open;
+        document.getElementById("closed").innerText = closed;
+        document.getElementById("high").innerText = high;
+    }
+
+    function displayData(data) {
         const container = document.getElementById("data");
+
+        container.innerHTML = "";
 
         data.forEach(item => {
             const div = document.createElement("div");
+
             div.className = "card";
 
             let statusClass = "open";
-            if(item.status === "Closed") statusClass = "closed";
-            if(item.status === "In Progress") statusClass = "progress";
+
+            if (item.status === "Closed")
+                statusClass = "closed";
+
+            if (item.status === "In Progress")
+                statusClass = "progress";
 
             div.innerHTML = `
                 <div class="title">${item.title}</div>
                 <div class="desc">${item.description}</div>
+                <div class="severity">Severity: ${item.severity}</div>
                 <div class="status ${statusClass}">${item.status}</div>
                 <button>View Details</button>
             `;
 
             container.appendChild(div);
         });
-    });
+    }
+
+    function searchIncident() {
+        const value = document.getElementById("search")
+            .value
+            .toLowerCase();
+
+        const filtered = allData.filter(item =>
+            item.title.toLowerCase().includes(value)
+        );
+
+        displayData(filtered);
+    }
+
+    function downloadCSV() {
+        window.location.href = "http://localhost:8080/incidents/export";
+    }
 </script>
 
 </body>
