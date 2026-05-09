@@ -1,1 +1,1 @@
-ALTER TABLE incident ADD COLUMN created_at TIMESTAMP;
+ALTER TABLE incidents ADD COLUMN created_at TIMESTAMP;

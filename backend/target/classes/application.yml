@@ -14,4 +14,4 @@ spring:
       ddl-auto: none
 
   flyway:
-    enabled: true
+    enabled: false
